@@ -1,6 +1,8 @@
 import React from 'react';
-import { TextField, Grid, Typography, FormControl, FilledInput, InputLabel, Input, Paper, Button, IconButton, InputAdornment, } from '@material-ui/core';
-import { Visibility, VisibilityOff } from '@material-ui/icons'
+import { TextField, Grid, Typography, InputLabel, FormControl, Input, IconButton, InputAdornment, } from '@material-ui/core';
+import { Visibility, VisibilityOff, AccountCircle } from '@material-ui/icons';
+import MailIcon from '@material-ui/icons/Mail';
+import LockIcon from '@material-ui/icons/Lock';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
 const useStyles = makeStyles(theme => ({
@@ -13,15 +15,13 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(4)
     },
     formTitle: {
-        marginBottom: theme.spacing(2)
+        marginBottom: theme.spacing(3)
     }
 }));
 
-function Form() {
+function AccountForm(props) {
         const [values, setValues] = React.useState({
             showPassword: false,
-            // password: null,
-            // confirm: null
         });
 
         const handleMouseDownPassword = (event) => {
@@ -35,37 +35,71 @@ function Form() {
         const classes = useStyles();
 
         return (
-            <Paper elevation={3} className={classes.paper}>
-                <Typography variant="h6" className={classes.formTitle}>Enter your information:</Typography>
                 <Grid container component="form" spacing={3}>
                     <Grid item xs={12} className={classes.formRow}>
                         <Grid container spacing={2} justify="flex-start">
                             <Grid item sm={6}>
-                                <TextField id="fname" label="First Name" fullWidth variant="filled"/>
+                                <TextField name="fname" label="First Name" fullWidth variant="standard"
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <AccountCircle/>
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    value={props.values.fname}
+                                    onChange={(event) => {props.handleChange(event)}}
+                                />
                             </Grid>
                             <Grid item sm={6}>
-                                <TextField id="lname" label="Last Name" fullWidth variant="filled"/>
+                                <TextField name="lname" label="Last Name" fullWidth variant="standard"
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <AccountCircle/>
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    onChange={props.handleChange}
+                                    value={props.values.lname}
+                                />
                             </Grid>
                         </Grid>
                     </Grid>
                     <Grid item xs={12} className={classes.formRow}>
                         <Grid container spacing={2} justify="flex-start">
                             <Grid item sm={12}>
-                                <TextField id="email" label="Email" fullWidth variant="filled"/>
+                                <TextField fullWidth name="email" label="Email" variant="standard"
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <MailIcon/>
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    onChange={props.handleChange}
+                                    value={props.values.email}
+                                />
                             </Grid>
                         </Grid>
                     </Grid>
                     <Grid item xs={12} className={classes.formRow}>
                         <Grid container spacing={2} justify="flex-start">
                             <Grid item sm={12}>
-                                <FormControl fullWidth variant="filled">
+                                <FormControl fullWidth variant="standard">
                                     <InputLabel htmlFor="password">Password</InputLabel>
-                                    <FilledInput id="password" label="Password" fullWidth variant="filled"
+                                    <Input name="password" label="Password" fullWidth
                                         type={values.showPassword ? 'text':'password'}
                                         value={values.password}
                                         onChange={(event) => {
-                                            setValues({password: event.target.value})
+                                            setValues({password: event.target.value});
+                                            props.handleChange(event);
                                         }}
+                                        startAdornment={
+                                            <InputAdornment position="start">
+                                                <LockIcon/>
+                                            </InputAdornment>
+                                        }
                                         endAdornment={
                                             <InputAdornment position="end">
                                             <IconButton
@@ -85,14 +119,20 @@ function Form() {
                     <Grid item xs={12} className={classes.formRow}>
                         <Grid container spacing={2} justify="flex-start">
                             <Grid item sm={12}>
-                                <FormControl fullWidth variant="filled">
+                                <FormControl fullWidth variant="standard">
                                     <InputLabel htmlFor="confirm">Confirm Password</InputLabel>
-                                    <FilledInput id="confirm" label="Confirm Password" fullWidth variant="filled"
+                                    <Input name="confirm" label="Confirm Password" fullWidth
                                         type={values.showPassword ? 'text':'password'}
                                         value={values.confirm}
                                         onChange={(event) => {
-                                            setValues({confirm: event.target.value})
+                                            setValues({confirm: event.target.value});
+                                            props.handleChange(event);
                                         }}
+                                        startAdornment={
+                                            <InputAdornment position="start">
+                                                <LockIcon/>
+                                            </InputAdornment>
+                                        }
                                         endAdornment={
                                             <InputAdornment position="end">
                                             <IconButton
@@ -106,25 +146,12 @@ function Form() {
                                         }
                                     />
                                 </FormControl>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Grid item xs={12} className={classes.formRow}>
-                        <Grid container spacing={2} justify="flex-end">
-                            <Grid item sm={6}>
-                                <Grid container spacing={2} justify="flex-end">
-                                    <Grid item>
-                                        <Button id="submit" style={{marginRight: '5px'}}color="default" variant="contained">Cancel</Button>
-                                        <Button id="submit" color="primary" variant="contained">Sign Up</Button>
-                                    </Grid>
-                                </Grid>
                             </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
-            </Paper>
         );
     }
 
 
-export default Form;
+export default AccountForm;
