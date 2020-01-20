@@ -40,7 +40,6 @@ export default class FormPaper extends React.Component {
         let pairs = [];
         while (givers.length > 1) {
             const [gIndex, rIndex] = [Math.floor(Math.random() * givers.length), Math.floor(Math.random() * receivers.length)];
-            console.log(gIndex, rIndex);
             if (gIndex !== rIndex) {
                 pairs.push({giver: givers.splice(gIndex, 1)[0], receiver: receivers.splice(rIndex, 1)[0]});
             }
