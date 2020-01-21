@@ -2,7 +2,7 @@ import React from 'react';
 import {Grid, Button, Paper, Typography, Step, Stepper, StepLabel} from '@material-ui/core';
 import AccountForm from './signUp';
 import EventForm from './eventInfo';
-import Confirmation from './confirmation';
+import Confirm from './confirmation';
 
 var headers = ['Personal Information', 'Event Details', 'Confirmation'];
 
@@ -19,10 +19,19 @@ export default class FormPaper extends React.Component {
                 date: new Date(),
                 participants: ""
             },
-            matched: []
+            matched: null,
+            snackbarOpen: false,
         }
         this.handleChange = this.handleChange.bind(this);
         this.refresh = this.matchParticipants.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+    }
+
+    handleClose(event, reason) {
+        if (reason === "clickaway") {
+            return;
+        }
+        this.setState({snackbarOpen: false});
     }
 
     matchParticipants() {
@@ -45,11 +54,12 @@ export default class FormPaper extends React.Component {
             }
         }
         pairs.push({giver: givers[0], receiver: receivers[0]});
-        this.setState({matched:pairs});
+        this.setState({matched:pairs, snackbarOpen:true});
     }
 
     handleButtonClick(val) {
-        if (this.state.pageNum + val === 3) {
+        if (this.state.pageNum + val === 3 && this.state.matched === null) {
+            console.log('here');
             this.matchParticipants();
         }
         if (!(this.state.pageNum + val < 1 || this.state.pageNum + val > 4)) {
@@ -91,7 +101,7 @@ export default class FormPaper extends React.Component {
                         case 2:
                             return <EventForm values={this.state.formInfo} handleChange={this.handleChange} handleDateChange={(e) => this.handleDateChange(e)}/>;
                         case 3:
-                            return <Confirmation matches={this.state.matched} refresh={this.refresh}/>
+                            return <Confirm handleClose={this.handleClose} snackbarOpen={this.state.snackbarOpen} matches={this.state.matched} refresh={this.refresh}/>
                         default:
                             return null;
                     }

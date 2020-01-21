@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Container, Typography } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import FormPaper from './components/formPaper';
 import Navbar from './components/navbar';
 
