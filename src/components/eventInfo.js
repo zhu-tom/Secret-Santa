@@ -8,7 +8,6 @@ export default class EventForm extends React.Component {
         super(props);
         this.state = {
             selectedDate: new Date(),
-            participants: "John Doe,johndoe@gmail.com\nMy Name,myemail@gmail.com"
         }
     }
 
@@ -19,6 +18,9 @@ export default class EventForm extends React.Component {
     render() {
         return (
             <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <TextField label="Event Name" fullWidth name="eventName" value={this.props.values.eventName} onChange={this.props.handleChange}/>
+                </Grid>
                 <Grid item xs={12}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker

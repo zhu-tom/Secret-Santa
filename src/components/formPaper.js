@@ -17,7 +17,8 @@ export default class FormPaper extends React.Component {
                 email: "",
                 password: "",
                 date: new Date(),
-                participants: ""
+                participants: "",
+                eventName: "",
             },
             matched: null,
             snackbarOpen: false,
